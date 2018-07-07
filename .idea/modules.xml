@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/robit.iml" filepath="$PROJECT_DIR$/robit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/robitdao/robitdao.iml" filepath="$PROJECT_DIR$/robitdao/robitdao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/robitpojo/robitpojo.iml" filepath="$PROJECT_DIR$/robitpojo/robitpojo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/robitservice/robitservice.iml" filepath="$PROJECT_DIR$/robitservice/robitservice.iml" />
+      <module fileurl="file://$PROJECT_DIR$/robitweb/robitweb.iml" filepath="$PROJECT_DIR$/robitweb/robitweb.iml" />
+    </modules>
+  </component>
+</project>

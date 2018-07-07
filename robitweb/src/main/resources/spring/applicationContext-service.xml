@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.2.xsd">
+	<context:component-scan base-package="com.jd"/>
+	<!--定时任务   -->
+	<!--<bean id = "myQuery" class = "cn.aspire.controller.AuthorizeController"> </bean>-->
+	<!-- 任务描述类 -->
+	<!--<bean id = "authjobDetail" class = "org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="myQuery"></property>
+		<property name="targetMethod" value="execute"></property>
+	</bean>
+	&lt;!&ndash;触发器&ndash;&gt;
+	<bean id ="authTrigger" class = "org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="authjobDetail"></property>
+		<property name="cronExpression" value="0/72 * * * * ? *"></property>
+	</bean>-->
+	<!--Quartz调度容器工厂  -->
+	<!--<bean id = "startQuartz" class = "org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean = "authTrigger"/>
+			</list>
+		</property>
+	</bean>-->
+</beans>
