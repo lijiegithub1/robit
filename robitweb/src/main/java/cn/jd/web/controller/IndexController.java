@@ -1,6 +1,6 @@
 package cn.jd.web.controller;
 
-import com.jd.service.TestService;
+import cn.jd.service.TestService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 

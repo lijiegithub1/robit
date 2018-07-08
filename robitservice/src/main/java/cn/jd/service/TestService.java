@@ -1,4 +1,4 @@
-package com.jd.service;
+package cn.jd.service;
 
 /**
  * Created by Administrator on 2018/07/07.
