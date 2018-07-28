@@ -18,9 +18,6 @@ public class MusicProcessImpl extends BaseProcessImpl implements MusicProcess {
 	@Override
 	public String process(Map<String, String> parseMap) {
 		init(parseMap);
-		//1、接受参数并继续打印 
-		//2 写逻辑  拼装参数 
-		
 		//3把对象转成 xml数据
 		String Content = parseMap.get("Content");
 		System.out.println("Content==>" + Content);

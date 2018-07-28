@@ -2,8 +2,10 @@ package cn.jd.web.utils;
 
 
 import cn.jd.pojo.AccessToken;
-import cn.jd.web.servlet.CoreServlet;
-import net.sf.json.JSONObject;
+
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
@@ -62,7 +64,7 @@ public class SignUtil {
         while ((temp = bufferReaeder.readLine()) != null) {
             buffer.append(temp);
         }
-       JSONObject jSONObject = JSONObject.fromObject(buffer.toString());
+       JSONObject jSONObject = JSON.parseObject(buffer.toString());
        String accessToken = "";
        AccessToken token = null;
        if(null != jSONObject){

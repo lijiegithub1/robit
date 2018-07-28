@@ -2,12 +2,13 @@ package cn.jd.service.impl;
 
 
 import cn.jd.service.ProcessRequest;
-import cn.jd.service.utils.ParseUtils;
+import cn.jd.service.utils.ParseUtils;;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -19,6 +20,11 @@ import java.util.Map;
 public class ProcessRequestImpl implements ProcessRequest {
     @Autowired
     private MusicProcessImpl musicProcess;
+
+    @Autowired
+    private TulingRobotProcesImpl tulingRobotProcesImpl;
+
+
     private static Logger logger = LogManager.getLogger(ProcessRequestImpl.class);
     //处理的核心代码块
     public String process(HttpServletRequest request) {
@@ -35,20 +41,20 @@ public class ProcessRequestImpl implements ProcessRequest {
             //文本消息处理
             String content = parseMap.get("Content");
             if(StringUtils.isNotBlank(msgType) && ParseUtils.REQ_MESSAGE_TYPE_TEXT.equals(msgType) ){
-               /* if("音乐".equals(content)){*/
-                    System.out.println("进到音乐中 ");
+               if("音乐@".equals(content)){
                     processxml = musicProcess.process(parseMap);
-               /* }*//*else if(content.startsWith("图片@")){
+                }/*else if(content.startsWith("图片@")){
                     content = content.substring(content.indexOf("@")+1);
                     parseMap.put("Content", content);
                     processxml = imageProcess.process(parseMap);
                 }else if(content.startsWith("翻译") && content.contains(">")){//翻译
                     processxml = translationService.process(parseMap);
-                }else if(content.startsWith("天气") && content.contains("@")){//翻译
+                }else if(content.startsWith("天气") && content.contains("@")){//天气
                     processxml = weatherService.process(parseMap);
-                }else{
-                    processxml = contentProcess.process(parseMap);
-                }*/
+                }*/else{//图灵机器人
+                    parseMap.put("reqType","0");
+                    processxml = tulingRobotProcesImpl.process(parseMap);
+                }
             }/*else if(StringUtils.isNotBlank(msgType) && ParseUtils.REQ_MESSAGE_TYPE_IMAGE.equals(msgType)){
                 processxml = imageProcess.process(parseMap);
             }else if(StringUtils.isNotBlank(msgType) && ParseUtils.REQ_MESSAGE_TYPE_VOICE.equals(msgType)){

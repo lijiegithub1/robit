@@ -6,7 +6,7 @@ import cn.jd.service.BaseProcess;
 
 import java.util.Map;
 
-public class BaseProcessImpl implements BaseProcess {
+public abstract class BaseProcessImpl implements BaseProcess {
 	protected String fromUserName;
 	protected String toUserName;
 	protected Long createTime;
@@ -21,9 +21,7 @@ public class BaseProcessImpl implements BaseProcess {
 		this.msgId = parseMap.get("MsgId"); //消息的id,可以将其放到数据库中进行存储使用
 	}
 	
-	public String process(Map<String, String> parseMap) {
-		return null;
-	}
+	public abstract String process(Map<String, String> parseMap);
 	
 	
 	
