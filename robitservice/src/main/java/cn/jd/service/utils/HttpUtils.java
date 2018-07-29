@@ -1,5 +1,8 @@
 package cn.jd.service.utils;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -12,7 +15,7 @@ import java.util.Map;
  * Created by lijie32 on 2018/7/28.
  */
 public class HttpUtils {
-
+    private static Logger logger = LogManager.getLogger(HttpUtils.class);
     /*post  请求*/
     public static Map<String, Object> requestPost(String url, String content) {
         Map<String, Object> result = new HashMap<String, Object>();
@@ -70,44 +73,48 @@ public class HttpUtils {
         return result;
 
     }
-    public static byte[] gbk2utf8(String chenese){
-        char c[] = chenese.toCharArray();
-        byte [] fullByte =new byte[3*c.length];
-        for(int i=0; i<c.length; i++){
-            int m = (int)c[i];
-            String word = Integer.toBinaryString(m);
-//         System.out.println(word);
 
-            StringBuffer sb = new StringBuffer();
-            int len = 16 - word.length();
-            //补零
-            for(int j=0; j<len; j++){
-                sb.append("0");
+
+    /**
+     * get请求
+     * @param requestUrl 请求地址
+     * @return
+     */
+    public static String requestGet(String requestUrl) {
+        StringBuffer buffer = new StringBuffer();
+        try {
+            URL url = new URL(requestUrl);
+            HttpURLConnection httpUrlConn = (HttpURLConnection) url.openConnection();
+
+            httpUrlConn.setDoOutput(false);
+            httpUrlConn.setDoInput(true);
+            httpUrlConn.setUseCaches(false);
+
+            httpUrlConn.setRequestMethod("GET");
+            httpUrlConn.connect();
+
+            // 将返回的输入流转换成字符串
+            InputStream inputStream = httpUrlConn.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+            String str = null;
+            while ((str = bufferedReader.readLine()) != null) {
+                buffer.append(str);
             }
-            sb.append(word);
-            sb.insert(0, "1110");
-            sb.insert(8, "10");
-            sb.insert(16, "10");
+            bufferedReader.close();
+            inputStreamReader.close();
+            // 释放资源
+            inputStream.close();
+            inputStream = null;
+            httpUrlConn.disconnect();
 
-//         System.out.println(sb.toString());
-
-            String s1 = sb.substring(0,8);
-            String s2 = sb.substring(8,16);
-            String s3 = sb.substring(16);
-
-            byte b0 = Integer.valueOf(s1, 2).byteValue();
-            byte b1 = Integer.valueOf(s2, 2).byteValue();
-            byte b2 = Integer.valueOf(s3, 2).byteValue();
-            byte[] bf = new byte[3];
-            bf[0] = b0;
-            fullByte[i*3] = bf[0];
-            bf[1] = b1;
-            fullByte[i*3+1] = bf[1];
-            bf[2] = b2;
-            fullByte[i*3+2] = bf[2];
-
+        } catch (Exception e) {
+            logger.info("get请求发生错误 ： " + e.getMessage());
+            throw new RuntimeException("暂不支持该地区，请重新输入");
         }
-        return fullByte;
+        logger.info("get请求正常返回 返回结果 ： " + buffer.toString());
+        return buffer.toString();
     }
 
 }

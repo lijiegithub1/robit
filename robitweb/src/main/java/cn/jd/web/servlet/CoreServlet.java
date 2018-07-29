@@ -35,7 +35,7 @@ public class CoreServlet extends HttpServlet {
 		WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
 		processRequest = (ProcessRequest) wac.getBean("processRequestImpl");
 	};
-	//doGet是验证微信是否正确
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//接受前端传过来的参数 
@@ -45,9 +45,6 @@ public class CoreServlet extends HttpServlet {
 		String echostr = req.getParameter("echostr");
 		RequestParameter requestParameter = new RequestParameter(signature,timestamp,nonce,echostr);
 		logger.info("验证信息 为  requestParameter = " + requestParameter.toString());
-		//进行排序 
-		//进行算法，最后做比较 
-		//最后进行输出 
 		PrintWriter out = resp.getWriter();
 		if(SignUtil.checkSingUtil(signature, timestamp, nonce)){
 			out.print(echostr); 
@@ -66,20 +63,14 @@ public class CoreServlet extends HttpServlet {
 		if(null != accessToken1){
 			access_token = accessToken1.getAccess_token();
 		}
-		/*logger.info(" 进到了post请求accessToken 为 ==" + accessToken);*/
-		logger.info(" 进到了post请求 ==========" );
-		//进行编码 设置
 		req.setCharacterEncoding("UTF-8");
 		resp.setCharacterEncoding("UTF-8");
-		//直接调用service层进行处理结果 ，返回xml类型
 		String respMessage = processRequest.process(req);
 		if(StringUtils.isBlank(respMessage)){
 			respMessage = "False";
 		}
-		//响应 
 		PrintWriter out = resp.getWriter();  
 		logger.info("respMessage "+ respMessage);
-		//给微信进行相应 
 		out.print(respMessage);  
         out.close();
 	}

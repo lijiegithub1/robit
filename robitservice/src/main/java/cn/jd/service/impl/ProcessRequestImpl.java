@@ -24,30 +24,30 @@ public class ProcessRequestImpl implements ProcessRequest {
     @Autowired
     private TulingRobotProcesImpl tulingRobotProcesImpl;
 
+    @Autowired
+    private WeatherProcesImpl weatherProcesImpl;
+
 
     private static Logger logger = LogManager.getLogger(ProcessRequestImpl.class);
     //处理的核心代码块
     public String process(HttpServletRequest request) {
-        //1)把请求转化为map
         try {
             String inputStream = request.getInputStream().toString();
-            logger.info("未转换前的 inputStream ====>" + inputStream);
             Map<String, String> parseMap = ParseUtils.parseXml(request);
-            logger.info("传来的参数是====>" + parseMap);
-            //2）把其中的参数进行取出
             String msgType = parseMap.get("MsgType");//文档的类型，可以用作后面的判断
             String processxml = "";
-            //3）把通用的一些东西进行返回 ，其他的进行判断 ，然后在填其中需要的东西，所以这里最重要的是要把返回的对象给完善好
             //文本消息处理
             String content = parseMap.get("Content");
             if(StringUtils.isNotBlank(msgType) && ParseUtils.REQ_MESSAGE_TYPE_TEXT.equals(msgType) ){
-               if("音乐@".equals(content)){
+               if(content.startsWith("音乐@")){
+                    content = content.substring(content.indexOf("@")+1);
+                   parseMap.put("Content", content);
                     processxml = musicProcess.process(parseMap);
-                }/*else if(content.startsWith("图片@")){
+                }else if(content.startsWith("天气@")){
                     content = content.substring(content.indexOf("@")+1);
                     parseMap.put("Content", content);
-                    processxml = imageProcess.process(parseMap);
-                }else if(content.startsWith("翻译") && content.contains(">")){//翻译
+                    processxml = weatherProcesImpl.process(parseMap);
+                }/*else if(content.startsWith("翻译") && content.contains(">")){//翻译
                     processxml = translationService.process(parseMap);
                 }else if(content.startsWith("天气") && content.contains("@")){//天气
                     processxml = weatherService.process(parseMap);
